@@ -6,9 +6,8 @@ import BottomNavBar from "./BottomNavBar";
 
 const Home: React.FC = () => {
   return (
-    <div>
-      <Header />
-           <Body />
+    <div >
+      <Body />
       <Footer />
       <BottomNavBar />
     </div>

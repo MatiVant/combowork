@@ -95,6 +95,7 @@ const ShoppingCart: React.FC = () => {
     <div>
     
       <Header />
+      
     
     <div
       className="navbar-logo-left wf-section"

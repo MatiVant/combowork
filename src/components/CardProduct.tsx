@@ -1,72 +1,142 @@
 import { Product } from '../types/product';
-import { Link } from 'react-router-dom';
+import {
+  Link,
+  NavLink,
+  Navigate,
+  redirect,
+  useNavigate,
+} from 'react-router-dom';
 import currencyFormatter from '../utils/currencyFormatter';
+import shoppingCartService from '../services/shoppingCartService';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import ProductsServices from '../services/ProductsServices';
 
 interface Prop {
   product: Product;
+  // productClicked: {} | undefined;
+  setProductClicked: Function;
 }
 ///
-const CardProduct: React.FC<Prop> = ({ product }) => {
+const CardProduct: React.FC<Prop> = ({
+  product,
+  setProductClicked,
+}) => {
+  const id = Number(product.id);
+  const [quantity, setQuantity] = useState<number>(0);
+
+  const getProduct = async () => {
+    try {
+      const rsp = await ProductsServices.getProductWhithCategory(
+        id,
+      );
+      console.log(rsp);
+      setProductClicked(rsp.data);
+      return rsp.data; // Añadido para devolver el producto
+    } catch (error) {
+      console.error('Error fetching product:', error);
+      return undefined;
+    }
+  };
+  const addToCart = async () => {
+    const productData = await getProduct();
+
+    console.log(productData);
+    const productsOnCart = shoppingCartService.getProducts();
+    const productSelected = productsOnCart.filter(
+      (f: any) => f.id === productData?.id,
+    );
+    console.log(productSelected, id);
+    let actualQuantityOfTheProductOnCart = 0;
+    if (
+      productSelected.length > 0 &&
+      productSelected[0].hasOwnProperty('quantity')
+    ) {
+      actualQuantityOfTheProductOnCart =
+        productSelected[0].quantity;
+    } else {
+      actualQuantityOfTheProductOnCart = 0;
+    }
+
+    if (!product || !product.stock) return;
+    // if (actualQuantityOfTheProductOnCart + 1 < 1 || !Number.isInteger(valueOfInput)) {
+    //   setQuantity(0); // seteo la cantiad a 0, tomando lo ingreso como error, y esto implica un reset de cantidad, si el nro negativo o invalido, automaticamente lo seteo en 0
+    //   return toast.warning(
+    //     'el numero ingresado tiene errores...',
+    //   );
+    // }
+
+    if (product.stock < actualQuantityOfTheProductOnCart + 1) {
+      setQuantity(0); // seteo la cantiad a 0, tomando lo ingreso como error, y esto implica un reset de cantidad, si el nro negativo o invalido, automaticamente lo seteo en 0
+      return toast.warning('el stock es insuficiente');
+    }
+    //////
+    setQuantity((prev) => prev + 1);
+
+    const _product = {
+      ...productData,
+      quantity: quantity + 1,
+    };
+    setProductClicked(_product);
+    shoppingCartService.addProduct(_product);
+    toast.success('Agregado al carrito!!!');
+  };
+
   return (
-    <Link
-      className="linkproducto w-inline-block"
-      to={`products/${product.id}`}
-    >
-      {/* AGREGUE EL SIGUIENT CSS INLINE */}
+    <div className="product">
+      
+      <div className="productData">
+        <img
+          src={
+            product.image
+              ? product.image
+              : '../images/generica COMBOWORK.png'
+          }
+          alt={product.name}
+        />
+        {product.offer ? (
+          <div className="offer">
+            <div className="txtdescription title offer">
+              OFERTA !!!
+            </div>
+          </div>
+        ) : null}
+      
+        
+        <h3 className="txtdescription title ">{product.name}</h3>
+
+          <div className="txtdescription title precio">
+            {product && product.price
+              ? currencyFormatter(product?.price)
+              : ''}
+          </div>
+          {product.discount && (
+            <div className="txtdescription inverse">
+              {product.discount}% de DESCUENTO!
+            </div>
+          )}
+      
+      
+      </div>
       <div
         style={{
           display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-around',
-          padding: 20,
+          justifyItems: 'center',
+          flexDirection: 'column',
         }}
       >
-        <div className="product">
-          <div className="imgproduct">
-            <img
-              src={
-                product.image
-                  ? product.image
-                  : '../images/generica COMBOWORK.png'
-              }
-              alt={product.name}
-            />
-            {product.offer ? (
-              <div className="offer">
-                <div className="txtdescription title offer">
-                  OFERTA !!!
-                </div>
-              </div>
-            ) : null}
-          </div>
-          <div className="wrapperdescription">
-            <h3 className="txtdescription title ">
-              {product.name}
-            </h3>
-
-            <div className="wrapperprecio">
-              <div className="txtdescription title precio">
-                {product && product.price
-                  ? currencyFormatter(product?.price)
-                  : ''}
-              </div>
-              {product.discount && (
-                <div className="txtdescription inverse">
-                  {product.discount}% de DESCUENTO!
-                </div>
-              )}
-            </div>
-          </div>
-          <div
-            style={{ display: 'flex', justifyItems: 'center', flexDirection: 'column'}}
-          >
-            <button className="confirmbutton" >
-              Ver más
-            </button>
-          </div>
-        </div>
+        {/* <Link
+          to={`products/${product.id}`}
+          className="confirmbutton"
+          style={{ backgroundColor: '#a337' }}
+        >
+          Detalles
+        </Link> */}
+        <button className="confirmbutton" onClick={addToCart}>
+          Agregar
+        </button>
       </div>
-    </Link>
+    </div>
   );
 };
 

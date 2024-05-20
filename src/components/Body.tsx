@@ -7,9 +7,13 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { useMediaQuery } from "@mui/material";
 import Info from "./Info";
 import BottomNavBar from "./BottomNavBar";
+import Header from "./Header";
+import { Product } from "../types/product";
 
 ///
 const Body: React.FC = () => {
+
+  const [productClicked, setProductClicked] = useState<Product | undefined>()
   const matches = useMediaQuery('(max-width:479px)');
   const [loading, setLoading] = useState(true);
   const allProducts = useContext(context);
@@ -20,10 +24,14 @@ const Body: React.FC = () => {
       setLoading(false);
     }, 700);
   }, []);
+
+
   //
 
   return (
     <>
+          <Header />
+
     <div className="image-container">
       {loading ? (
         <Box sx={{ width: "100%", position: "absolute" }}>
@@ -45,25 +53,24 @@ const Body: React.FC = () => {
         
       </section>
       
-        <a href="wa.me/3413110700" target="_blank">
+        <a href="https://wa.me/3413110700" target="_blank">
         <WhatsAppIcon sx={{fontSize: matches? 50 : 80, right: matches? 10 : 50, bottom: matches? 10: 50 }} className="btn-wsp"/>
         </a>
       <section className="wrapperproducts wf-section">
-        <h1 style={{textAlign: "center"}}>NUESTROS PRODUCTOS</h1>
+        <h1 style={{textAlign: "center", lineHeight: 1}}>NUESTROS PRODUCTOS</h1>
         <hr className="lineaHorProducts"></hr>
         {loading ? (
           <section style={{ height: "100vh" }}></section>
           ) : (
-            <div className="wrapperproduct">
-            {/*traer y mostrar todos los productos, product servicesasd*/}
-            <div className="lineproduct">
-              {allProducts?.currentProduct
-                ? allProducts.currentProduct.map((p, index) => (
-                  <CardProduct product={p} key={index} />
-                  ))
-                  : null}
-            </div>
-          </div>
+            
+              <div className="lineproduct">
+                {allProducts?.currentProduct
+                  ? allProducts.currentProduct.map((p, index) => (
+                    <CardProduct product={p} key={index} setProductClicked={setProductClicked} />
+                    ))
+                    : null}
+              </div>
+          
         )}
         <div className="titleproducts" style={{marginTop: 80}}>
         <div style={{color: "white", fontSize: 40, padding: 40, fontWeight:600}} >¡LAS MEJORES MARCAS!</div>
