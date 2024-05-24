@@ -163,7 +163,10 @@ const ForgotPassword = ({ email }: Props) => {
                     borderRadius: "9px",
                     color: "white",
                     width: "35%",
-                    padding: "16px",
+                    padding: "10px",
+                    boxSizing: "border-box",
+                    overflow: "hidden",
+                    fontSize: "14px",
                   }}
                   type="submit"
                 >

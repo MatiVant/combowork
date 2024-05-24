@@ -7,14 +7,22 @@ import { Product } from '../types/product';
 import ProductsServices from '../services/ProductsServices';
 import context from '../context';
 import currencyFormatter from '../utils/currencyFormatter';
+import { red } from '@mui/material/colors';
+import CategoriesServices from '../services/CategoriesServices';
 /////
 const Header: React.FC = () => {
   const [open, setOpen] = useState<string>('');
   const userLogged = useContext(context);
   const allProducts = useContext(context);
   ////
+  const getCategories = async () => {
+    const resp = await CategoriesServices.get()
+    console.log('header response CAT', resp)
+    allProducts?.setCurrentCategory(resp.data)
+  }
   const getProducts = async () => {
     const resp = await ProductsServices.get();
+    console.log('header response',resp);
     ////sort products by categoryId
     const productsSortedByCategoryId = resp.data.sort(
       (cId1: any, cId2: any) => {
@@ -58,6 +66,7 @@ const Header: React.FC = () => {
   //////
   useEffect(() => {
     getProducts();
+    getCategories()
   }, []);
   return (
     <>
@@ -75,7 +84,7 @@ const Header: React.FC = () => {
           >
           
       <div className="navbar-wrapper">
-        <div className="wrapperdetail">
+        <div className="wrapperdetail" style={{ display: 'flex', alignItems: 'center'}}>
           <Link to="/" className="navbar-brand w-nav-brand">
             <img
               loading="lazy"
@@ -128,7 +137,7 @@ const Header: React.FC = () => {
                         <div className="nav-dropdown-icon w-icon-dropdown-toggle" />
                         <div
                           className="text-block-5"
-                          style={{ fontSize: '22px' }}
+                          style={{ fontSize: '24px' }}
                         >
                           Hola{' '}
                           {userLogged?.currentUser?.firstName}!
@@ -165,12 +174,12 @@ const Header: React.FC = () => {
             >
         <div id="wrapper carrito" className="cart-wrapper">
          
+          <div className='cartIcon' >
             <div className="txtnumber">
               {getProductsTotal()
                 ? currencyFormatter(getProductsTotal())
                 : ''}
             </div>
-          <div className='cartIcon' >
 
             <img
               loading="lazy"

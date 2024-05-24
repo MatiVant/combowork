@@ -1,0 +1,17 @@
+# Cache de archivos HTML
+<FilesMatch "\.(html|htm)$">
+  Header set Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+  Header set Pragma "no-cache"
+</FilesMatch>
+
+# Cache de archivos CSS, JS, imágenes y otros
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|svg|webp)$">
+  Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+
+# Evita cache en todo el sitio (para desarrollo)
+# <FilesMatch ".*">
+#   Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+#   Header set Pragma "no-cache"
+#   Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+# </FilesMatch>

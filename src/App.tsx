@@ -6,9 +6,8 @@ import { Product } from "./types/product";
 import { routesDesable, routesEnable } from "./resources/routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BottomNavBar from "./components/BottomNavBar";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+
+import { Category } from "./types/category";
 
 function App() {
   const storedCurrentUser = localStorage.getItem("currentUser");
@@ -21,6 +20,8 @@ function App() {
   );
   const [currentProduct, setCurrentProduct] = useState<Product[] | undefined>();
 
+  const [currentCategory, setCurrentCategory] = useState<Category[] | undefined>()
+
   return (
     <>
       <>
@@ -31,6 +32,8 @@ function App() {
               setCurrentUser,
               currentProduct,
               setCurrentProduct,
+              currentCategory,
+              setCurrentCategory,
             }}
           >
             {currentUser ? (

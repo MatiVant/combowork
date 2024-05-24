@@ -11,7 +11,7 @@ const CartMobileTotal = ({ total, quantity }: Props) => {
         <div className="texttotalemobile">TOTAL </div>
       </div>
       <div className="div-block-8">
-        <div className="texttotalemobile">{quantity} {(quantity > 1 ? "PRODUCTOS" : "PRODUCTO")}</div>
+        <div className="text-block-8">{quantity} {(quantity > 1 ? "PRODUCTOS" : "PRODUCTO")}</div>
       </div>
       <div className="div-block-9">
         <div className="texttotalemobile">$ {total}</div>

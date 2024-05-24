@@ -104,9 +104,9 @@ const ShoppingCart: React.FC = () => {
       
       <section className="section-2 wf-section">
         <div className="titleproducts" style={{padding: '0px'}}>
-          <h2 style={{color:"white"}}>SU COMPRA</h2>
+          <h3 style={{color:"white"}}>SU COMPRA</h3>
         </div>
-        <div className="wrapperdetail" />
+        
         <div className="wrappercart">
           <div className="header">
             <div className="headerproduct">
@@ -162,12 +162,12 @@ const ShoppingCart: React.FC = () => {
               />
             )}
 
-            <div
+            <button
               onClick={() => createPayment(products)}
               className="confirmbutton"
             >
               Confirmar compra
-            </div>
+            </button>
           </div>
         </div>
       </section>

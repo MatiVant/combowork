@@ -124,15 +124,16 @@ const Login = () => {
           <div className="logintitle">Iniciar sesión</div>
         </div>
         <div className="wrapperlogin">
-          <div className="block">
+          <div >
             <form
               id="email-form"
               name="email-form"
               data-name="Email Form"
               method="get"
-              className="form"
+              style={{display: "flex", flexDirection: "column", gap: 8}}
               onSubmit={handleSubmit(onSubmit)}
               onFocus={resetErrorsMessagges}
+              
             >
               <label htmlFor="name" className="txtlabel" style={{color:'black'}}>
                 Email
@@ -154,7 +155,7 @@ const Login = () => {
                 {...register("password")}
               />
               <p style={{ color: "red" }}>{errors.password?.message}</p>
-              <div
+              {/* <div
                 style={{
                   margin: "10px",
                   display: "flex",
@@ -173,7 +174,7 @@ const Login = () => {
                     {errorMessage}{" "}
                   </p>
                 )}
-              </div>
+              </div> */}
               <div
                 style={{
                   display: "flex",
@@ -186,26 +187,30 @@ const Login = () => {
                     backgroundColor: "#2c3b5f",
                     borderRadius: "13px",
                     color: "white",
-                    padding: "16px 16px",
-                    marginBottom: "32px",
-                    fontSize: "1.5rem",
-                    fontWeight: 200
+                    padding: "10px",
+                    marginBottom: "22px",
+                    fontSize: "16px",
+                    fontWeight: 200,
+                    width: '120px',
                     
                   }}
                   type="submit"
                 >
-                  Ingresar
+                  {loading ? (
+                  <CircularProgress size="1rem" />
+                ) : (
+                  'Ingresar')}
                 </button>
               </div>
             </form>
           </div>
           <div
-            style={{ display: "grid", placeItems: "center", marginTop: "16px" }}
+            style={{ display: "grid", placeItems: "center", marginTop: "5px", gap: "5px"}}
           >
             <button
               style={{
                 background: "transparent",
-                fontSize: "1.3rem"
+                fontSize: "16px"
               }}
               onClick={confirmRecoverPassword}
             >
@@ -214,10 +219,9 @@ const Login = () => {
             <Link
               to="/shortSignUp"
               style={{
-                marginTop: "16px",
                 textDecoration: "none",
                 color: "inherit",
-                fontSize: "1.3rem"
+                fontSize: "16px"
               }}
             >
               Crear una cuenta

@@ -116,19 +116,25 @@ const DetailProduct = () => {
                 <h1 className="txtproductname">
                   {product?.name}
                 </h1>
-                <p className="paragraph">
+                <p className="txtproductdesc">
                   <p style={{ whiteSpace: 'pre-line' }}>
                     {product?.description}
                   </p>
                 </p>
-                <p className="paragraph">
+                <p className="txtproductdesc">
                   stock : {product?.stock}
                 </p>
-                <p>
+                <p className='txtproductname'>
                   Precio:{' '}
                   {product && product.price
                     ? currencyFormatter(product?.price)
                     : ''}
+                </p>
+                <p className='txtproductdesc'>
+                  Descuento:{' '}
+                  {product && product.discount
+                    ? `${(product?.discount)} %`
+                    : 'S/D'}
                 </p>
                 <div className="w-form">
                   <section>
@@ -172,14 +178,14 @@ const DetailProduct = () => {
                         <p
                           className="logintitle"
                           style={{
-                            fontSize: '25px',
+                            fontSize: '20px',
                             color: 'black'
                           }}
                         >
                           <span
                             className="logintitle"
                             style={{
-                              fontSize: '32px',
+                              fontSize: '25px',
                               color: 'black',
                             }}
                           >

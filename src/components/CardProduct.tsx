@@ -39,14 +39,13 @@ const CardProduct: React.FC<Prop> = ({
     }
   };
   const addToCart = async () => {
+    setQuantity(0)
     const productData = await getProduct();
-
-    console.log(productData);
     const productsOnCart = shoppingCartService.getProducts();
     const productSelected = productsOnCart.filter(
       (f: any) => f.id === productData?.id,
     );
-    console.log(productSelected, id);
+    
     let actualQuantityOfTheProductOnCart = 0;
     if (
       productSelected.length > 0 &&
@@ -58,7 +57,8 @@ const CardProduct: React.FC<Prop> = ({
       actualQuantityOfTheProductOnCart = 0;
     }
 
-    if (!product || !product.stock) return;
+    if (!product || !product.stock) return toast.warning('el stock es insuficiente');
+
     // if (actualQuantityOfTheProductOnCart + 1 < 1 || !Number.isInteger(valueOfInput)) {
     //   setQuantity(0); // seteo la cantiad a 0, tomando lo ingreso como error, y esto implica un reset de cantidad, si el nro negativo o invalido, automaticamente lo seteo en 0
     //   return toast.warning(
@@ -71,7 +71,7 @@ const CardProduct: React.FC<Prop> = ({
       return toast.warning('el stock es insuficiente');
     }
     //////
-    setQuantity((prev) => prev + 1);
+    // setQuantity((prev) => prev + 1);
 
     const _product = {
       ...productData,
@@ -84,8 +84,18 @@ const CardProduct: React.FC<Prop> = ({
 
   return (
     <div className="product">
-      
+          <Link
+            to={`products/${product.id}`}
+            style={{textDecoration: 'none', color: 'black'}}
+            
+          >
       <div className="productData">
+        <div className="containerDiscountImage">
+        {/* {product.discount && (
+        <div className="txtdescription inverse">
+          {product.discount}% de DESCUENTO!
+        </div>
+        )} */}
         <img
           src={
             product.image
@@ -94,6 +104,7 @@ const CardProduct: React.FC<Prop> = ({
           }
           alt={product.name}
         />
+        </div>
         {product.offer ? (
           <div className="offer">
             <div className="txtdescription title offer">
@@ -110,14 +121,11 @@ const CardProduct: React.FC<Prop> = ({
               ? currencyFormatter(product?.price)
               : ''}
           </div>
-          {product.discount && (
-            <div className="txtdescription inverse">
-              {product.discount}% de DESCUENTO!
-            </div>
-          )}
       
       
       </div>
+            
+          </Link>
       <div
         style={{
           display: 'flex',
@@ -125,14 +133,7 @@ const CardProduct: React.FC<Prop> = ({
           flexDirection: 'column',
         }}
       >
-        {/* <Link
-          to={`products/${product.id}`}
-          className="confirmbutton"
-          style={{ backgroundColor: '#a337' }}
-        >
-          Detalles
-        </Link> */}
-        <button className="confirmbutton" onClick={addToCart}>
+        <button className="addButton" onClick={addToCart}>
           Agregar
         </button>
       </div>

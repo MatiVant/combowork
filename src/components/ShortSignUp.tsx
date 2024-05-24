@@ -17,17 +17,22 @@ const user = yup
       .string()
       .min(2, "requiere al menos de 2 caracteres")
       .required("su apellido es requerido"),
-    // dni: yup
-    //   .number()
-    //   .min(7, "su dni deberia tener al menos 7 caracteres")
-    //   .required("su DNI es requerido")
-    //   .typeError("debe ser un numero"),
+    dni: yup
+      .number()
+      .min(7, "su dni deberia tener al menos 7 caracteres")
+      .required("su DNI es requerido")
+      .typeError("debe ser un numero"),
     // cuit: yup
     //   .number()
     //   .min(11, "requiere 11 digitos, sin espacios si signos")
     //   .required("este campo es requerido")
     //   .typeError("debe ser un numero"),
     // zipCode: yup.number().required().typeError("debe ser un numero"),
+    phone: yup
+      .number()
+      .min(6, "requiere 6 digitos")
+      .required()
+      .typeError("debe ser un numero"),
     companyCode: yup
       .string()
       .min(1, "necesita el código de compañia")
@@ -39,11 +44,6 @@ const user = yup
     // dateOfBirth: yup.string().required("la fecha de nacimiento es requerida"),
     // address: yup.string().min(3, "requiere 3 caracteres al menos").required(),
     // location: yup.string().min(3, "requiere 3 caracteres al menos").required(),
-    // phone: yup
-    //   .number()
-    //   .min(6, "requiere 6 digitos")
-    //   .required()
-    //   .typeError("debe ser un numero"),
     mail: yup
       .string()
       .required("su email es requerido")
@@ -201,6 +201,22 @@ const ShortSignUp = () => {
               />
               <p style={{ color: "red" }}>{errors.lastName?.message}</p>
               
+              
+              <label className="txtlabel signup">DNI</label>
+              <input
+                className="inputlogin w-input"
+                maxLength={256}
+                {...register("dni")}
+              />
+              <p style={{ color: "red" }}>{errors.lastName?.message}</p>
+              
+              <label className="txtlabel signup">Telefono</label>
+              <input
+                className="inputlogin w-input"
+                maxLength={256}
+                {...register("phone")}
+              />
+              <p style={{ color: "red" }}>{errors.lastName?.message}</p>
               <label className="txtlabel signup">Código de compañía</label>
               <input
                 className="inputlogin w-input"

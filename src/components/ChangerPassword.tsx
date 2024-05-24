@@ -93,8 +93,8 @@ const ChangerPassword = () => {
                 width: "fit-content",
               }}
             >
-              <p className="logintitle" style={{ fontSize: "24px" }}>
-                <span className="logintitle" style={{ fontSize: "38px" }}>
+              <p className="logintitle" style={{ fontSize: "20px" }}>
+                <span className="logintitle" style={{ fontSize: "30px" }}>
                   ←
                 </span>{" "}
                 ATRÁS
@@ -174,7 +174,7 @@ const ChangerPassword = () => {
                         borderRadius: "9px",
                         color: "white",
                         padding: "13px 13px",
-                        fontSize: "1.3rem"
+                        fontSize: "20px"
                       }}
                       type="submit"
                     >
