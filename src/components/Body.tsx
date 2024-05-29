@@ -9,6 +9,7 @@ import Info from './Info';
 import BottomNavBar from './BottomNavBar';
 import Header from './Header';
 import { Product } from '../types/product';
+import ProductsServices from '../services/ProductsServices';
 
 ///
 const Body: React.FC = () => {
@@ -18,11 +19,28 @@ const Body: React.FC = () => {
   const matches = useMediaQuery('(max-width:479px)');
   const [loading, setLoading] = useState(true);
   const allProducts = useContext(context);
-  
+  const [title, setTitle] = useState('Todos las categorias');
+
+  const getCategoryID = async (categoryId: number) => {
+    const data = await ProductsServices.getProductsByCategory(
+      categoryId,
+    );
+    allProducts?.setCurrentProduct(data.data);
+    const catTitle = allProducts?.currentCategory?.find(
+      (c) => c.id === categoryId,
+    );
+    if (catTitle) setTitle(catTitle.name);
+  };
+
+  const refreshProducts = async () => {
+    const data = await ProductsServices.getProducts();
+    allProducts?.setCurrentProduct(data.data);
+    setTitle('Todas las categorias');
+  };
+
   //////
   useEffect(() => {
     window.scrollTo({ top: 0 });
-    console.log(allProducts);
     setTimeout(() => {
       setLoading(false);
     }, 700);
@@ -42,7 +60,7 @@ const Body: React.FC = () => {
         ) : (
           ''
         )}
-        <section>
+        <section id='Banner'>
           <img
             srcSet="/images/Banner1.png 1200w"
             sizes="(max-width: 991px) 100vw, 
@@ -53,72 +71,86 @@ const Body: React.FC = () => {
           />
         </section>
 
-        <a href="https://wa.me/3413110700" target="_blank">
-          <WhatsAppIcon
-            sx={{
-              fontSize: matches ? 50 : 80,
-              right: matches ? 10 : 50,
-              bottom: matches ? 10 : 50,
-            }}
-            className="btn-wsp"
-          />
-        </a>
-        <section className="wrapperproducts wf-section" style={{ display: 'flex'}}>
-          
-          <div id='navBarCategories' className="navBarCategories" style={{minWidth: "18%"}}>
-              CATEGORÍAS
-              <ul className='categoriesList'>
-                {allProducts?.currentCategory?.map((categ) => <li>{categ.description}</li>)}
-                
-              </ul>
-              
+        <section
+          className="wrapperproducts wf-section"
+          style={{ display: 'flex' }}
+        >
+          <div
+            id="navBarCategories"
+            className="navBarCategories"
+            style={{ minWidth: '18%' }}
+          >
+            CATEGORÍAS
+            <ul className="categoriesList">
+              {allProducts?.currentCategory?.map((categ) => (
+                <li style={{cursor: 'pointer'}} onClick={() => getCategoryID(categ.id)}>
+                  {categ.description}
+                </li>
+              ))}
+              <li style={{cursor: 'pointer'}} onClick={() => refreshProducts()}>
+                Todas las categorias
+              </li>
+            </ul>
           </div>
-          <div>
-
-          
-          <h1 style={{ textAlign: 'center', lineHeight: 1 }}>
-            NUESTROS PRODUCTOS
-          </h1>
-          <hr className="lineaHorProducts"></hr>
-          {loading ? (
-            <section style={{ height: '100vh' }}></section>
-          ) : (
-            <div className="lineproduct">
-              {allProducts?.currentProduct
-                ? allProducts.currentProduct
-                  .filter((prod)=> prod && prod.stock !== undefined && prod.stock > 0)
-                  .map((p, index) => (
-                    <CardProduct
-                      product={p}
-                      key={index}
-                      setProductClicked={setProductClicked}
-                    />
-                  ))
-                : null}
-            </div>
-          )}
+          <div id="Productos" style={{width:'100%'}}>
+            <h1 style={{ textAlign: 'center', lineHeight: 1 }}>
+              NUESTROS PRODUCTOS
+            </h1>
+            <hr className="lineaHorProducts"></hr>
+            <h4 style={{ textAlign: 'center', lineHeight: 1 }}>
+              {title}
+            </h4>
+            {loading ? (
+              <section style={{ height: '100vh' }}></section>
+            ) : (
+              <div className="lineproduct">
+                {allProducts?.currentProduct
+                  ? allProducts.currentProduct
+                      .filter(
+                        (prod) =>
+                          prod &&
+                          prod.stock !== undefined &&
+                          prod.stock > 0,
+                      )
+                      .map((p, index) => (
+                        <CardProduct
+                          product={p}
+                          key={index}
+                          setProductClicked={setProductClicked}
+                        />
+                      ))
+                  : null}
+              </div>
+            )}
           </div>
         </section>
+        <div className="titleproducts" style={{ marginTop: 80 }}>
           <div
-            className="titleproducts"
-            style={{ marginTop: 80 }}
+            style={{
+              color: 'white',
+              fontSize: 40,
+              padding: 40,
+              fontWeight: 600,
+            }}
           >
-            <div
-              style={{
-                color: 'white',
-                fontSize: 40,
-                padding: 40,
-                fontWeight: 600,
-              }}
-            >
-              ¡LAS MEJORES MARCAS!
-            </div>
+            ¡LAS MEJORES MARCAS!
           </div>
+        </div>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Info />
       </div>
-      {/* <BottomNavBar /> */}
+
+      <a href="https://wa.me/3413110700" target="_blank">
+        <WhatsAppIcon
+          sx={{
+            fontSize: matches ? 50 : 80,
+            right: matches ? 10 : 50,
+            bottom: matches ? 10 : 50,
+          }}
+          className="btn-wsp"
+        />
+      </a>
     </>
   );
 };

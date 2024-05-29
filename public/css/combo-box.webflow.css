@@ -8,7 +8,7 @@
 
 .navBarCategories {
   font-size: 18px;
-  margin-top: 25px;
+  margin-top: 40px;
   padding: 30px;
  
 }
@@ -87,13 +87,17 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 100px 20px 100px 20px;
+  padding: 20px 20px 20px 20px;
+  width: 60%;
+  
+  
   
   
 }
 .imgLogos {
-  width: 20%;
-  filter: grayscale(100%)
+  width: 19%;
+  filter: grayscale(100%);
+  height: auto;
 }
 
 .btn-wsp{
@@ -183,7 +187,7 @@
   /* padding: 5px 10px; */
   line-height: 20px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .nav-link:hover {
@@ -211,7 +215,7 @@
 
 .nav-dropdown-toggle {
   letter-spacing: 0.25px;
-  font-size: 25px;
+  
   line-height: 20px;
 }
 
@@ -612,7 +616,7 @@
 
 .image-3 {
   width: auto;
-  height: 3rem;
+  height: 2.3rem;
   
 }
 
@@ -652,7 +656,7 @@
 
 .txtCartNumber{
   color: #fff;
-  font-size: 1.1rem;
+  
   font-weight: 400;
   text-decoration: none;
   background-color: #1a1b1f;
@@ -693,11 +697,12 @@
 
 .txtdescription.title {
   font-family: "League Spartan", sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 12px;
   letter-spacing: 1px;
   margin: 0;
   padding: 0;
+  font-weight: 400;
 
 }
 
@@ -710,13 +715,11 @@
   display: inline-block;
 }
 
-/* .txtdescription.title.precio {
-  color: black;
-  font-size: 2rem;
-  font-weight: 600;
-  font-family: "League Spartan", sans-serif;
-  text-align: center;
-} */
+.txtdescription.title.precio {
+ color: #2d8bcf !important;
+ text-align: center;
+ font-weight: 600;
+}
 
 /* .txtdescription.inverse {
   color: #faf7f7;
@@ -1744,6 +1747,10 @@
 }
 
 @media screen and (max-width: 479px) {
+
+  .logosWrapper {
+    width: 100%;
+  }
 
   
 

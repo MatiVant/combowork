@@ -30,7 +30,6 @@ const CardProduct: React.FC<Prop> = ({
       const rsp = await ProductsServices.getProductWhithCategory(
         id,
       );
-      console.log(rsp);
       setProductClicked(rsp.data);
       return rsp.data; // Añadido para devolver el producto
     } catch (error) {

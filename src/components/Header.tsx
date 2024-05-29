@@ -7,7 +7,6 @@ import { Product } from '../types/product';
 import ProductsServices from '../services/ProductsServices';
 import context from '../context';
 import currencyFormatter from '../utils/currencyFormatter';
-import { red } from '@mui/material/colors';
 import CategoriesServices from '../services/CategoriesServices';
 /////
 const Header: React.FC = () => {
@@ -16,13 +15,11 @@ const Header: React.FC = () => {
   const allProducts = useContext(context);
   ////
   const getCategories = async () => {
-    const resp = await CategoriesServices.get()
-    console.log('header response CAT', resp)
-    allProducts?.setCurrentCategory(resp.data)
-  }
+    const resp = await CategoriesServices.get();
+    allProducts?.setCurrentCategory(resp.data);
+  };
   const getProducts = async () => {
     const resp = await ProductsServices.get();
-    console.log('header response',resp);
     ////sort products by categoryId
     const productsSortedByCategoryId = resp.data.sort(
       (cId1: any, cId2: any) => {
@@ -66,13 +63,15 @@ const Header: React.FC = () => {
   //////
   useEffect(() => {
     getProducts();
-    getCategories()
+    getCategories();
   }, []);
+
   return (
     <>
-      
-      <div className="navbar-logo-left wf-section" style={{scrollBehavior:'auto'}}>
-
+      <div
+        className="navbar-logo-left wf-section"
+        style={{ scrollBehavior: 'auto' }}
+      >
         <div
           data-animation="default"
           data-collapse="medium"
@@ -81,120 +80,124 @@ const Header: React.FC = () => {
           data-easing2="ease"
           role="banner"
           className="navbar-logo-left-container shadow-three w-nav"
-          >
-          
-      <div className="navbar-wrapper">
-        <div className="wrapperdetail" style={{ display: 'flex', alignItems: 'center'}}>
-          <Link to="/" className="navbar-brand w-nav-brand">
-            <img
-              loading="lazy"
-              src="/images/logo_combowork_720.png"
-              alt=""
-              className="image"
-            />
-          </Link>
-          <nav
-            role="navigation"
-            className="nav-menu-wrapper w-nav-menu"
-            style={{marginLeft: "20px"}}
-          >
-            <ul
-              role="list"
-              className="nav-menu-two w-list-unstyled"
+        >
+          <div className="navbar-wrapper">
+            <div
+              className="wrapperdetail"
+              style={{ display: 'flex', alignItems: 'center' }}
             >
-              <li>
-                <Link
-                  to={home.path}
-                  aria-current="page"
-                  className="nav-link w--current"
+              <Link to="/" className="navbar-brand w-nav-brand">
+                <img
+                  loading="lazy"
+                  src="/images/logo_combowork_720.png"
+                  alt=""
+                  className="image"
+                />
+              </Link>
+              <nav
+                role="navigation"
+                className="nav-menu-wrapper w-nav-menu"
+                style={{ marginLeft: '20px' }}
+              >
+                <ul
+                  role="list"
+                  className="nav-menu-two w-list-unstyled"
                 >
-                  Inicio
-                </Link>
-              </li>
-              <li>
-                <a
-                  onClick={() =>
-                    window.open(
-                      'https://www.combowork.ar/nosotros',
-                    )
-                  }
-                  className="nav-link w--current"
-                  style={{ cursor: 'pointer' }}
-                >
-                  Nosotros
-                </a>
-              </li>
-              <li>
-                <div className="wrapperuser">
                   <li>
-                    <div
-                      data-delay={0}
-                      data-hover="false"
-                      className="nav-dropdown w-dropdown"
-                      onClick={handleOpen}
+                    <Link
+                      to={home.path}
+                      aria-current="page"
+                      className="nav-link w--current"
                     >
-                      <div className="nav-dropdown-toggle w-dropdown-toggle">
-                        <div className="nav-dropdown-icon w-icon-dropdown-toggle" />
-                        <div
-                          className="text-block-5"
-                          style={{ fontSize: '24px' }}
-                        >
-                          Hola{' '}
-                          {userLogged?.currentUser?.firstName}!
-                        </div>
-                      </div>
-                      <nav
-                        className={`nav-dropdown-list shadow-three mobile-shadow-hide w-dropdown-list ${open}`}
+                      Inicio
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      onClick={() =>
+                        window.open(
+                          'https://www.combowork.ar/nosotros',
+                        )
+                      }
+                      className="nav-link w--current"
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Nosotros
+                    </a>
+                  </li>
+                  <li>
+                    <div className="wrapperuser">
+                      <div
+                        data-delay={0}
+                        data-hover="false"
+                        className="nav-dropdown w-dropdown"
+                        onClick={handleOpen}
                       >
-                        <Link
-                          to="/changemypassword"
-                          className="nav-dropdown-link w-dropdown-link"
+                        <div className="nav-dropdown-toggle w-dropdown-toggle">
+                          <div className="nav-dropdown-icon w-icon-dropdown-toggle" />
+                          <div
+                            className="nav-link"
+                            // style={{ fontSize: '24px' }}
+                          >
+                            Hola{', '}
+                            {userLogged?.currentUser?.firstName}!
+                          </div>
+                        </div>
+                        <nav
+                          className={`nav-dropdown-list shadow-three mobile-shadow-hide w-dropdown-list ${open}`}
                         >
-                          Cambiar contraseña
-                        </Link>
-                        <Link
-                          to="/"
-                          className="nav-dropdown-link w-dropdown-link"
-                          onClick={logOut}
-                        >
-                          Cerrar sesión
-                        </Link>
-                      </nav>
+                          <Link
+                            to="/changemypassword"
+                            className="nav-dropdown-link w-dropdown-link"
+                          >
+                            Cambiar contraseña
+                          </Link>
+                          <Link
+                            to="/"
+                            className="nav-dropdown-link w-dropdown-link"
+                            onClick={logOut}
+                          >
+                            Cerrar sesión
+                          </Link>
+                        </nav>
+                      </div>
                     </div>
                   </li>
-                </div>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <Link
-              to={getQuantity() ? shoppingCart.path : home.path}
-              style={{textDecoration: 'none'}}
-              
-            >
-        <div id="wrapper carrito" className="cart-wrapper">
-         
-          <div className='cartIcon' >
-            <div className="txtnumber">
-              {getProductsTotal()
-                ? currencyFormatter(getProductsTotal())
-                : ''}
+                </ul>
+              </nav>
             </div>
+            <Link
+              to={getQuantity() ? shoppingCart.path : home.path}
+              style={{ textDecoration: 'none' }}
+            >
+              <div id="wrapper carrito" className="cart-wrapper">
+                <div className="cartIcon">
+                  <div className="txtnumber">
+                    {getProductsTotal()
+                      ? currencyFormatter(getProductsTotal())
+                      : ''}
+                  </div>
 
-            <img
-              loading="lazy"
-              src="../public/images/cart.png"
-              alt=""
-              className="image-3"
-              />
-            {getQuantity() ? <div className="txtCartNumber"> {getQuantity()}</div> : ''}
+                  <img
+                    loading="lazy"
+                    src="../public/images/cart.png"
+                    alt=""
+                    className="image-3"
+                  />
+                  {getQuantity() ? (
+                    <div className="txtCartNumber">
+                      {' '}
+                      {getQuantity()}
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </div>
+            </Link>
           </div>
-         
         </div>
-        </Link>
       </div>
-      </div>
-      </div>            
     </>
   );
 };

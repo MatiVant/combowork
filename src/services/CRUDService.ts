@@ -77,6 +77,10 @@ class CRUDService extends HTTPService {
     })
   }
 
+  async findByCategID(id: number | undefined) {
+    return await this.get(`/${id}/productsByCateg`)
+  }
+
   async create(data: Object): Promise<RequestResult> {
     return await this.post("", data);
   }
