@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import AuthService from "../services/AuthService";
-import { Link } from "react-router-dom";
+import { ErrorResponse, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { User } from "../types/user";
@@ -9,6 +9,7 @@ import context from "../context";
 import ForgotPassword from "./ForgotPassword";
 import CircularProgress from "@mui/material/CircularProgress";
 import shoppingCartService from "../services/shoppingCartService";
+import { toast } from "react-toastify";
 //
 const user = yup
   .object({
@@ -68,12 +69,25 @@ const Login = () => {
   ////
   const onSubmit = async (data: FormData) => {
     setLoading(true);
-    await AuthService.login({
-      email: data.mail,
-      password: data.password,
-    });
-    shoppingCartService.setEmpyArray(); //init cart on empty array
-    getUser(); // this func set the user on context
+    try{
+
+     const resp = await AuthService.login({
+        email: data.mail,
+        password: data.password,
+      });
+    
+      if(resp.hasError){
+        toast.error("Email o contrasena incorrecto");
+      } else {
+        shoppingCartService.setEmpyArray(); //init cart on empty array
+        await getUser(); // this func set the user on context
+        toast.success("Usuario ingresó correctamente");
+
+      }
+    } catch(err : any) {
+      toast.error('que hace pa');
+      console.log('error', err)
+    }
     setLoading(false);
   };
   ////
