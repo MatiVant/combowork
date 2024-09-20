@@ -100,7 +100,7 @@ const Body: React.FC = () => {
           </div>
           <div id="Productos" style={{ width: '100%' }}>
             <h1 style={{ textAlign: 'center', lineHeight: 1 }}>
-              NUESTROS PRODUCTOS
+              NUESTROS MEJORES PRODUCTOS
             </h1>
             <hr className="lineaHorProducts"></hr>
             <h4 style={{ textAlign: 'center', lineHeight: 1 }}>
