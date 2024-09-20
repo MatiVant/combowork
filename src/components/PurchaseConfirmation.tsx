@@ -94,7 +94,7 @@ const PurchaseConfirmation: React.FC = () => {
               style={icon}
             />
           </a>
-          <h5 style={text}>WhatSapp: 3565667787</h5>
+          <h5 style={text}>WhatsApp: 3565667787</h5>
           <a>
             <img
               loading="eager"

@@ -60,7 +60,7 @@ const Body: React.FC = () => {
         ) : (
           ''
         )}
-        <section id='Banner'>
+        <section id="Banner">
           <img
             srcSet="/images/Banner1.png 1200w"
             sizes="(max-width: 991px) 100vw, 
@@ -83,16 +83,22 @@ const Body: React.FC = () => {
             CATEGORÍAS
             <ul className="categoriesList">
               {allProducts?.currentCategory?.map((categ) => (
-                <li style={{cursor: 'pointer'}} onClick={() => getCategoryID(categ.id)}>
+                <li
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => getCategoryID(categ.id)}
+                >
                   {categ.description}
                 </li>
               ))}
-              <li style={{cursor: 'pointer'}} onClick={() => refreshProducts()}>
+              <li
+                style={{ cursor: 'pointer' }}
+                onClick={() => refreshProducts()}
+              >
                 Todas las categorias
               </li>
             </ul>
           </div>
-          <div id="Productos" style={{width:'100%'}}>
+          <div id="Productos" style={{ width: '100%' }}>
             <h1 style={{ textAlign: 'center', lineHeight: 1 }}>
               NUESTROS PRODUCTOS
             </h1>
@@ -110,7 +116,8 @@ const Body: React.FC = () => {
                         (prod) =>
                           prod &&
                           prod.stock !== undefined &&
-                          prod.stock > 0,
+                          prod.stock > 0 &&
+                          prod.show === true,
                       )
                       .map((p, index) => (
                         <CardProduct
