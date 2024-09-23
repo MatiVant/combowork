@@ -1,4 +1,4 @@
-import { Maybe } from "yup";
+import { Maybe } from 'yup';
 
 export interface newUser {
   firstName?: string;
@@ -19,4 +19,5 @@ export interface newUser {
   state?: string;
   email?: string;
   companyCode?: string;
+  deliveryTime?: string;
 }

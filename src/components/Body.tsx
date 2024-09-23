@@ -82,14 +82,17 @@ const Body: React.FC = () => {
           >
             CATEGORÍAS
             <ul className="categoriesList">
-              {allProducts?.currentCategory?.map((categ) => (
-                <li
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => getCategoryID(categ.id)}
-                >
-                  {categ.description}
-                </li>
-              ))}
+              {allProducts?.currentCategory
+                ?.filter((cat) => cat.show)
+                .map((categ) => (
+                  <li
+                    key={categ.id}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => getCategoryID(categ.id)}
+                  >
+                    {categ.description}
+                  </li>
+                ))}
               <li
                 style={{ cursor: 'pointer' }}
                 onClick={() => refreshProducts()}

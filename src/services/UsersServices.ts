@@ -1,12 +1,17 @@
-import CRUDService from "./CRUDService";
-import { newUser } from "../types/newUser";
+import CRUDService from './CRUDService';
+import { newUser } from '../types/newUser';
 
 class UsersServices extends CRUDService {
   constructor() {
-    super("users");
+    super('users');
   }
-  async create(data:{user:newUser,companyCode:string}) {
-    const result = await this.post("/signup", data);
+  async create(data: {
+    user: any;
+    companyCode: string;
+    deliveryTime: string;
+    companyTel: string;
+  }) {
+    const result = await this.post('/signup', data);
     return result;
   }
 }
