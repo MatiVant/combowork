@@ -22,16 +22,23 @@ const user = yup
       .min(7, 'su dni deberia tener al menos 7 caracteres')
       .required('su DNI es requerido'),
     phone: yup.string().min(6, 'requiere 6 digitos').required(),
+    password: yup
+      .string()
+      .min(8, 'La contraseña debe tener al menos 8 caracteres')
+      .required('Se requiere una contraseña'),
+    confirmPassword: yup
+      .string()
+      .oneOf(
+        [yup.ref('password')],
+        'Las contraseñas deben coincidir',
+      )
+      .required('Por favor confirme su contraseña'),
     companyCode: yup
       .string()
       .min(1, 'necesita el código de compañia')
       .required(),
     deliveryTime: yup
       .string()
-      .oneOf(
-        ['mañana', 'tarde'],
-        'Debe seleccionar "mañana" o "tarde"',
-      )
       .min(1, 'necesita ingresar su turno')
       .required(),
     companyTel: yup
@@ -41,6 +48,12 @@ const user = yup
     mail: yup
       .string()
       .required('su email es requerido')
+      .transform((value) => {
+        if (value) {
+          return value.charAt(0).toLowerCase() + value.slice(1);
+        }
+        return value;
+      })
       .matches(
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2})?$/,
         'formato de email invalido',
@@ -74,6 +87,7 @@ const ShortSignUp = () => {
           phone: data.phone,
           dni: data.dni,
         },
+        password: data.password,
         deliveryTime: data.deliveryTime,
         companyCode: data.companyCode,
         companyTel: data.companyTel,
@@ -185,6 +199,45 @@ const ShortSignUp = () => {
                   {errors.mail?.message}
                 </p>
 
+                <label className="txtlabel signup">
+                  Contraseña
+                </label>
+                <input
+                  type="password"
+                  className="inputlogin w-input"
+                  {...register('password')}
+                />
+                <p style={{ color: 'red' }}>
+                  {errors.password?.message}
+                </p>
+
+                <label className="txtlabel signup">
+                  Confirmar Contraseña
+                </label>
+                <input
+                  type="password"
+                  className="inputlogin w-input"
+                  {...register('confirmPassword')}
+                />
+                <p style={{ color: 'red' }}>
+                  {errors.confirmPassword?.message}
+                </p>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {loading ? (
+                    <CircularProgress />
+                  ) : (
+                    <p style={{ color: 'red' }}>
+                      {errorMessage}
+                    </p>
+                  )}
+                </div>
+
                 <label className="txtlabel signup">DNI</label>
                 <input
                   className="inputlogin w-input"
@@ -216,14 +269,8 @@ const ShortSignUp = () => {
                   placeholder="Ingresá el código de tu estableciminto"
                 />
                 <label className="txtlabel signup">
-                  Franja horaria de entrega
+                  Turno de trabajo
                 </label>
-                {/* <input
-                  className="inputlogin w-input"
-                  maxLength={256}
-                  
-                  
-                /> */}
                 <select
                   className="selectlogin w-input"
                   id="option-select"
@@ -233,8 +280,8 @@ const ShortSignUp = () => {
                   <option value="" disabled>
                     Selecciona tu turno
                   </option>
-                  <option value="Mañana">Mañana</option>
-                  <option value="Tarde">Tarde</option>
+                  <option value="mañana">Mañana</option>
+                  <option value="tarde">Tarde</option>
                 </select>
                 <label className="txtlabel signup">
                   Teléfono Contacto Establecimiento
@@ -280,6 +327,16 @@ const ShortSignUp = () => {
                   </button>
                 </div>
               </form>
+              <p className="txtlabel signup">
+                Si tiene problemas para registrarse envíe un
+                correo a{' '}
+                <a
+                  href="mailto:soporte@combowork.ar"
+                  style={{ color: 'white' }}
+                >
+                  soporte@combowork.ar
+                </a>
+              </p>
             </div>
           </div>
         </div>

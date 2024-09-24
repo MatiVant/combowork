@@ -7,6 +7,7 @@ class UsersServices extends CRUDService {
   }
   async create(data: {
     user: any;
+    password: string;
     companyCode: string;
     deliveryTime: string;
     companyTel: string;
