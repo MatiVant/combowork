@@ -21,7 +21,10 @@ const user = yup
       .string()
       .min(7, 'su dni deberia tener al menos 7 caracteres')
       .required('su DNI es requerido'),
-    phone: yup.string().min(6, 'requiere 6 digitos').required(),
+    phone: yup
+      .string()
+      .min(6, 'el telefono requiere 8 digitos')
+      .required('El telefono requiere mas de 8 digitos'),
     password: yup
       .string()
       .min(8, 'La contraseña debe tener al menos 8 caracteres')
@@ -43,7 +46,7 @@ const user = yup
       .required(),
     companyTel: yup
       .string()
-      .min(1, 'Ingrese un número para comunicarnos')
+      .min(8, 'Ingrese un número valido')
       .required(),
     mail: yup
       .string()
@@ -75,7 +78,7 @@ const ShortSignUp = () => {
     resolver: yupResolver<FormData>(user),
   });
   ////////
-
+  console.log('tu error', errors);
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
@@ -173,7 +176,7 @@ const ShortSignUp = () => {
                   maxLength={256}
                   {...register('firstName')}
                 />
-                <p style={{ color: 'red' }}>
+                <p style={{ color: 'pink' }}>
                   {errors.firstName?.message}
                 </p>
                 <label className="txtlabel signup">
@@ -184,7 +187,7 @@ const ShortSignUp = () => {
                   maxLength={256}
                   {...register('lastName')}
                 />
-                <p style={{ color: 'red' }}>
+                <p style={{ color: 'pink' }}>
                   {errors.lastName?.message}
                 </p>
 
@@ -195,7 +198,7 @@ const ShortSignUp = () => {
                   maxLength={256}
                   {...register('mail')}
                 />
-                <p style={{ color: 'red' }}>
+                <p style={{ color: 'pink' }}>
                   {errors.mail?.message}
                 </p>
 
@@ -207,7 +210,7 @@ const ShortSignUp = () => {
                   className="inputlogin w-input"
                   {...register('password')}
                 />
-                <p style={{ color: 'red' }}>
+                <p style={{ color: 'pink' }}>
                   {errors.password?.message}
                 </p>
 
@@ -219,7 +222,7 @@ const ShortSignUp = () => {
                   className="inputlogin w-input"
                   {...register('confirmPassword')}
                 />
-                <p style={{ color: 'red' }}>
+                <p style={{ color: 'pink' }}>
                   {errors.confirmPassword?.message}
                 </p>
 
@@ -232,7 +235,7 @@ const ShortSignUp = () => {
                   {loading ? (
                     <CircularProgress />
                   ) : (
-                    <p style={{ color: 'red' }}>
+                    <p style={{ color: 'pink' }}>
                       {errorMessage}
                     </p>
                   )}
@@ -244,8 +247,8 @@ const ShortSignUp = () => {
                   maxLength={256}
                   {...register('dni')}
                 />
-                <p style={{ color: 'red' }}>
-                  {errors.lastName?.message}
+                <p style={{ color: 'pink' }}>
+                  {errors.dni?.message}
                 </p>
 
                 <label className="txtlabel signup">
@@ -256,8 +259,8 @@ const ShortSignUp = () => {
                   maxLength={256}
                   {...register('phone')}
                 />
-                <p style={{ color: 'red' }}>
-                  {errors.lastName?.message}
+                <p style={{ color: 'pink' }}>
+                  {errors.phone?.message}
                 </p>
                 <label className="txtlabel signup">
                   Código de establecimiento
@@ -266,8 +269,11 @@ const ShortSignUp = () => {
                   className="inputlogin w-input"
                   maxLength={256}
                   {...register('companyCode')}
-                  placeholder="Ingresá el código de tu estableciminto"
+                  placeholder="Ingresá el número de tu escuela o compañía"
                 />
+                <p style={{ color: 'pink' }}>
+                  {errors.companyCode?.message}
+                </p>
                 <label className="txtlabel signup">
                   Turno de trabajo
                 </label>
@@ -292,8 +298,8 @@ const ShortSignUp = () => {
                   {...register('companyTel')}
                   placeholder="Ingresá un numero de contacto del establecimiento"
                 />
-                <p style={{ color: 'red' }}>
-                  {errors.companyCode?.message}
+                <p style={{ color: 'pink' }}>
+                  {errors.companyTel?.message}
                 </p>
 
                 <div
@@ -306,7 +312,7 @@ const ShortSignUp = () => {
                   {loading ? (
                     <CircularProgress />
                   ) : (
-                    <p style={{ color: 'red' }}>
+                    <p style={{ color: 'pink' }}>
                       {' '}
                       {errorMessage}{' '}
                     </p>
