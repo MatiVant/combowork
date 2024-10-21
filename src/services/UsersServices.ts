@@ -9,10 +9,15 @@ class UsersServices extends CRUDService {
     user: any;
     password: string;
     companyCode: string;
-    deliveryTime: string;
-    companyTel: string;
+    deliveryTime?: string;
+    calle?: string;
+    altura?: number;
+    pisoDepto?: string;
+    ciudad?: string;
+    codigoPostal?: string;
   }) {
     const result = await this.post('/signup', data);
+    console.log(result);
     return result;
   }
 }

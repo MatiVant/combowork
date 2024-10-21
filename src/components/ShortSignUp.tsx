@@ -40,14 +40,21 @@ const user = yup
       .string()
       .min(1, 'necesita el código de compañia')
       .required(),
-    deliveryTime: yup
+    deliveryTime: yup.string().optional(),
+    calle: yup
       .string()
-      .min(1, 'necesita ingresar su turno')
+      .min(3, 'Ingrese una calle valida')
       .required(),
-    companyTel: yup
+    altura: yup
+      .number()
+      .min(1, 'Ingrese una altura valida')
+      .required(),
+    pisoDepto: yup.string(),
+    ciudad: yup
       .string()
-      .min(8, 'Ingrese un número valido')
+      .min(3, 'Ingrese una ciudad valida')
       .required(),
+    codigoPostal: yup.string(),
     mail: yup
       .string()
       .required('su email es requerido')
@@ -78,7 +85,6 @@ const ShortSignUp = () => {
     resolver: yupResolver<FormData>(user),
   });
   ////////
-  console.log('tu error', errors);
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
@@ -93,9 +99,14 @@ const ShortSignUp = () => {
         password: data.password,
         deliveryTime: data.deliveryTime,
         companyCode: data.companyCode,
-        companyTel: data.companyTel,
+        calle: data.calle,
+        altura: data.altura,
+        pisoDepto: data.pisoDepto,
+        ciudad: data.ciudad,
+        codigoPostal: data.codigoPostal,
       });
       setLoading(false);
+      console.log('resp', resp.msg);
       if (resp.hasError) {
         setLoading(false);
         if (resp.msg.includes('Company')) {
@@ -168,40 +179,85 @@ const ShortSignUp = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 onFocus={() => setErrorMessage('')}
               >
-                <label className="txtlabel signup signup">
-                  Nombre
-                </label>
-                <input
-                  className="inputlogin w-input"
-                  maxLength={256}
-                  {...register('firstName')}
-                />
-                <p style={{ color: 'pink' }}>
-                  {errors.firstName?.message}
-                </p>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div style={{ width: '48%' }}>
+                    <label className="txtlabel signup signup">
+                      Nombre
+                    </label>
+                    <input
+                      className="inputlogin w-input"
+                      maxLength={256}
+                      {...register('firstName')}
+                    />
+                    <p style={{ color: 'pink' }}>
+                      {errors.firstName?.message}
+                    </p>
+                  </div>
+                  <div style={{ width: '48%' }}>
+                    <label className="txtlabel signup">
+                      Apellido
+                    </label>
+                    <input
+                      className="inputlogin w-input"
+                      maxLength={256}
+                      {...register('lastName')}
+                    />
+                    <p style={{ color: 'pink' }}>
+                      {errors.lastName?.message}
+                    </p>
+                  </div>
+                </div>
                 <label className="txtlabel signup">
-                  Apellido
+                  Telefono
                 </label>
                 <input
                   className="inputlogin w-input"
                   maxLength={256}
-                  {...register('lastName')}
+                  {...register('phone')}
                 />
                 <p style={{ color: 'pink' }}>
-                  {errors.lastName?.message}
+                  {errors.phone?.message}
                 </p>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div style={{ width: '52%' }}>
+                    <label className="txtlabel signup">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="inputlogin w-input"
+                      maxLength={256}
+                      {...register('mail')}
+                    />
+                    <p style={{ color: 'pink' }}>
+                      {errors.mail?.message}
+                    </p>
+                  </div>
 
-                <label className="txtlabel signup">Email</label>
-                <input
-                  type="email"
-                  className="inputlogin w-input"
-                  maxLength={256}
-                  {...register('mail')}
-                />
-                <p style={{ color: 'pink' }}>
-                  {errors.mail?.message}
-                </p>
-
+                  <div style={{ width: '44%' }}>
+                    <label className="txtlabel signup">
+                      DNI
+                    </label>
+                    <input
+                      className="inputlogin w-input"
+                      maxLength={256}
+                      {...register('dni')}
+                    />
+                    <p style={{ color: 'pink' }}>
+                      {errors.dni?.message}
+                    </p>
+                  </div>
+                </div>
                 <label className="txtlabel signup">
                   Contraseña
                 </label>
@@ -241,27 +297,86 @@ const ShortSignUp = () => {
                   )}
                 </div>
 
-                <label className="txtlabel signup">DNI</label>
-                <input
-                  className="inputlogin w-input"
-                  maxLength={256}
-                  {...register('dni')}
-                />
-                <p style={{ color: 'pink' }}>
-                  {errors.dni?.message}
-                </p>
-
-                <label className="txtlabel signup">
-                  Telefono
-                </label>
-                <input
-                  className="inputlogin w-input"
-                  maxLength={256}
-                  {...register('phone')}
-                />
-                <p style={{ color: 'pink' }}>
-                  {errors.phone?.message}
-                </p>
+                <div
+                  id="direccion"
+                  style={{
+                    padding: 15,
+                    border: '1px solid white',
+                    borderRadius: 10,
+                    margin: 30,
+                  }}
+                >
+                  <label
+                    className="txtlabel signup"
+                    style={{
+                      fontSize: '25px',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Dirección
+                  </label>
+                  <br />
+                  <label className="txtlabel signup">
+                    Calle
+                  </label>
+                  <input
+                    className="inputlogin w-input"
+                    maxLength={256}
+                    {...register('calle')}
+                    placeholder="Ingresa la calle"
+                  />
+                  <p style={{ color: 'pink' }}>
+                    {errors.calle?.message}
+                  </p>
+                  <label className="txtlabel signup">
+                    Altura
+                  </label>
+                  <input
+                    className="inputlogin w-input"
+                    maxLength={256}
+                    {...register('altura')}
+                    placeholder="Ingresa la altura"
+                  />
+                  <p style={{ color: 'pink' }}>
+                    {errors.altura?.message}
+                  </p>
+                  <label className="txtlabel signup">
+                    Piso o depto
+                  </label>
+                  <input
+                    className="inputlogin w-input"
+                    maxLength={256}
+                    {...register('pisoDepto')}
+                    placeholder="Piso o departamento"
+                  />
+                  <p style={{ color: 'pink' }}>
+                    {errors.pisoDepto?.message}
+                  </p>
+                  <label className="txtlabel signup">
+                    Ciudad
+                  </label>
+                  <input
+                    className="inputlogin w-input"
+                    maxLength={256}
+                    {...register('ciudad')}
+                    placeholder="Ingresa la ciudad"
+                  />
+                  <p style={{ color: 'pink' }}>
+                    {errors.ciudad?.message}
+                  </p>
+                  <label className="txtlabel signup">
+                    Codigo Postal
+                  </label>
+                  <input
+                    className="inputlogin w-input"
+                    maxLength={256}
+                    {...register('codigoPostal')}
+                    placeholder="Ingresa la calle"
+                  />
+                  <p style={{ color: 'pink' }}>
+                    {errors.codigoPostal?.message}
+                  </p>
+                </div>
                 <label className="txtlabel signup">
                   Código de establecimiento
                 </label>
@@ -289,18 +404,6 @@ const ShortSignUp = () => {
                   <option value="mañana">Mañana</option>
                   <option value="tarde">Tarde</option>
                 </select>
-                <label className="txtlabel signup">
-                  Teléfono Contacto Establecimiento
-                </label>
-                <input
-                  className="inputlogin w-input"
-                  maxLength={256}
-                  {...register('companyTel')}
-                  placeholder="Ingresá un numero de contacto del establecimiento"
-                />
-                <p style={{ color: 'pink' }}>
-                  {errors.companyTel?.message}
-                </p>
 
                 <div
                   style={{

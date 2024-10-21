@@ -9,13 +9,18 @@ class PaymentsServices extends CRUDService {
   createPreference = async (
     products: Product[],
     userId: number,
+    deliveryMethod: string,
+    descuento: number,
+    deliveryTime: string,
   ) => {
     const rsp = await this.post(`preference`, {
       products,
       userId,
+      deliveryMethod,
+      descuento,
+      deliveryTime,
     });
     return rsp;
-
   };
 }
 
